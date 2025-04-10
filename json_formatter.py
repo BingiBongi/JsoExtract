@@ -10,7 +10,7 @@ def format_json(raw_json):
     except json.JSONDecodeError:
         return "Invalid JSON provided.", {}
 
-# Define a function to generate SQL extraction query for each array item
+# Define a function to generate SQL extraction query for each array item with value example
 def generate_sql_extract_example(json_data):
     sql_queries = []
     
@@ -24,7 +24,8 @@ def generate_sql_extract_example(json_data):
                 new_path = f"{path}[{i}]"
                 generate_sql_for_dict(new_path, item)
         else:
-            sql_queries.append(f"'$.{path}'")
+            value_example = f"{data}"  # Example value extracted
+            sql_queries.append(f"'$.{path}'  --  Value: {value_example}")
     
     generate_sql_for_dict("", json_data)
     
@@ -61,13 +62,10 @@ with col2:
 if st.button('Copy to Clipboard'):
     st.text(formatted_json)  # Automatically copies last value in output area
 
-# SQL Extraction: Example SQL for each array element
+# SQL Extraction: Example SQL for each array element with output value examples
 if parsed_json:
     st.subheader("SQL Extraction Example")
     sql_example = generate_sql_extract_example(parsed_json)
-    st.text_area("SQL Query to Extract Data:", sql_example, height=350, max_chars=5000, disabled=True)
+    st.text_area("SQL Query to Extract Data:", sql_example, height=600, max_chars=5000, disabled=True)
 
-# Optional: Add a 'Paste & Format' button for auto-formatting as an additional convenience
-if st.button("Paste & Format"):
-    input_json = '{"company": {"name": "Sample"}}'  # Placeholder for actual paste functionality
-    formatted_json, parsed_json = format_json(input_json)
+
