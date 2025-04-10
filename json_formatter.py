@@ -55,6 +55,7 @@ else:
 with col2:
     st.markdown("<h3 style='text-align: center;'>Formatted JSON</h3>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)  # Add line break between header and box
+    st.code(formatted_json, language="json", height=600)
 
 # Add a copy to clipboard button for formatted JSON
 if st.button('Copy to Clipboard'):
